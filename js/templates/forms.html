@@ -1,0 +1,34 @@
+		<!-- INPUT FORMS -->
+		<section id="forms">
+				<ul class="nav nav-pills" >
+					<li ng-class="{active:isSelected(1)}">
+						<a id='leftTab' href="#" ng-click="selectTab(1)">Make New Folder</a>
+					</li>
+					<li ng-class="{active: isSelected(2)}">
+						<a href="#" ng-click="selectTab(2)">Make New File</a>
+					</li>
+
+					<div ng-show="isSelected(1)">
+						<!-- Folder submit form -->
+						<form form name="form1" ng-submit="form1.$valid && addFolder(folderName, folderPath)">
+							<input class="form-control" type="text" name="folderName" ng-model="folderName" placeholder="Folder Name" required/>
+							<span>{{folderNameErrorMsg}}</span>
+							<input class="form-control" type="text" name="folderPath" ng-model="folderPath" value="John" required/>
+							<span>{{folderPathErrorMsg}}</span>
+							<button type="submit" class="btn btn-default" ng-disabled="form1.$invalid">Create</button>	
+							<p></p>		
+						</form>
+					</div>
+
+					<div ng-show="isSelected(2)">
+						<!-- File submit form -->
+						<form name="form2" ng-submit="form2.$valid && addFile(fileName, filePath)" novalidate>
+							<input class="form-control" type="text" name="fileName" ng-model="fileName" placeholder="File Name" required/>
+							<span>{{fileNameErrorMsg}}</span>
+							<input class="form-control" type="text" name="filePath" ng-model="filePath"  value='root/' required />
+							<span>{{filePathErrorMsg}}</span>
+							<button type="submit" class="btn btn-default" ng-disabled="form2.$invalid">Create</button>
+							<strong><u><p>File Name must end with .php, .js, .css or .html</p></u></strong>
+					</div>					
+				</ul>				
+		</section>
