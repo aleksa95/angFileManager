@@ -1,10 +1,7 @@
-(function(){
-	var app = angular.module('app.controllders.dataController',[]);
-	
-	// main app controller
-	app.controller("DataController", function($http, $scope) {
+angular.module('app.controllders.dataController',[]).controller("DataController", function($http, $scope) {
 
 		// setting the defalut value of folder or file path to root
+		$scope.currentPath = 'root/'
 		$scope.folderPath = 'root/';
 		$scope.filePath = 'root/';
 
@@ -23,7 +20,7 @@
 			var fullStop = folderName.charAt(0);
 			var newFolder = {
 				"name":folderName,
-				"folderPath":path,
+				"path":folderPath,
 				"children":[]
 			}
 			
@@ -61,7 +58,7 @@
 			var path = filePath.split("/").join('.').slice(0,(filePath.lastIndexOf('.')));
 			var newFile = {
 				'fileName' : fileName,
-				'filePath' : path						
+				'path' : filePath						
 			};
 			
 			var extension = ['php','js','css','html'];
@@ -78,14 +75,14 @@
 			}
 
 			/*custom validation*/
+			// alert if file name starts with a fullstop	
+			if (fullStop === '.') {
+				$scope.fileNameErrorMsg = "File name can not start with a fullstop";
+				$("input[name = 'fileName']").css('border-color', 'red');
 			// alert if extension is not supported	
-			if (correctExtension !== true) {
+			} else if (correctExtension !== true) {
 				$scope.fileNameErrorMsg = "File extension is not supported";
 				$("input[name = 'fileName']").css('border-color', 'red');
-			// alert if file name starts with a fullstop	
-			} else if (fullStop === '.') {
-				$scope.fileNameErrorMsg = "File name can not start with a fullstop";
-				$("input[name = 'fileName']").css('border-color', 'red');	
 			// alert if file path does not end with a forward slash						
 			} else if ((filePath.substring(filePath.length-1)) !== '/') {
 				$("input[name = 'filePath']").css('border-color', 'red');
@@ -200,6 +197,10 @@
    			tester(newFileName);	 
    		}
 		
+		/*DISPLAYS PATH TO CURRENT FOLDER*/
+		$scope.showPath= function(data) {
+			$scope.currentPath = data.path;
+		}
 
 		/*TOGGLES TABS*/
 		$scope.tab = 1;
@@ -211,4 +212,4 @@
 		}
 
 	});
-}());	
+	

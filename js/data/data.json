@@ -1,5 +1,5 @@
 {	
     "root" : [
-
+    {"name":"muzika", "path":"root/", "children":[{"fileName":"rock.js", "path":"root/muzika"}]}
     ]
 }
