@@ -1,0 +1,29 @@
+Aplikacija treba da služi za prikazivanje folder strukture. Treba da ima dva dugmeta, “Create Folder” i “Create File”, i graficki prikaz folder strukture. (Nije dozvoljeno koriscenje gotovih resenja za prikaz folder strukture).
+
+    Po inicijaciji aplikacije treba da postoji vec jedan folder koji se zove “Root”.
+
+    Klikom na “Create Folder” dugme ponudi korisniku dva polja: 
+
+        Ime foldera-gotovo
+
+        Lokacija foldera (Folder moze da se ubaci u drugi folder. Defaultno je selektovan Root folder)
+
+    Klikom na “Create File” dugme ponudi korisniku sledeca pilja : 
+
+        Ime fajla (mora da ima ekstenziju i podrzane su samo sledece ektenzije: .php; .css; .html; .js;)-gotovo
+
+        Lokacija fajla (Defaultno je selectovan Root folder)
+
+    Sadržaj foldera je sortiran po sledecim kriterijumima:
+
+        Folderi se prvo prikazuju pa onda fajlovi.-gotovo	
+
+        Folder i fajlovi su sortirani po abecedi.-gotovo
+
+    U grafickom prikazu strukture foldera treba staviti posebnu ikonicu za foldere i posebnu za fajlove-gotovo
+
+    Svaki red (folder ili fajl) treba da sadrzi sledece akcije:
+
+        Delete: Korisnik moze da obriše fajl ili folder (ako briše folder onda briše i sve fajlove u njemu)
+
+        Edit: Korisnik može da promeni ime foldera / fajla.

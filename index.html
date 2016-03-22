@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html ng-app="fileManager" ng-cloak>
+<head>
+	<title>Angular.js File Manager</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+</head>
+<body>
+	
+	<div class="container-fluid" ng-controller="DataController">
+
+		<header><h1>Angular.js File Manager</h1></header>
+
+		<!-- INPUT FORMS -->
+		<section id="forms">
+				<ul class="nav nav-pills" >
+					<li ng-class="{active:isSelected(1)}">
+						<a id='leftTab' href="#" ng-click="selectTab(1)">Make New Folder</a>
+					</li>
+					<li ng-class="{active: isSelected(2)}">
+						<a href="#" ng-click="selectTab(2)">Make New File</a>
+					</li>
+
+					<div ng-show="isSelected(1)">
+						<!-- Folder submit form -->
+						<form form name="form1" ng-submit="form1.$valid && addFolder(folderName, folderPath)">
+							<input class="form-control" type="text" name="folderName" ng-model="folderName" placeholder="Folder Name" required/>
+							<span>{{folderNameErrorMsg}}</span>
+							<input class="form-control" type="text" name="folderPath" ng-model="folderPath" value="John" required/>
+							<span>{{folderPathErrorMsg}}</span>
+							<button type="submit" class="btn btn-default" ng-disabled="form1.$invalid">Create</button>	
+							<p></p>		
+						</form>
+					</div>
+
+					<div ng-show="isSelected(2)">
+						<!-- File submit form -->
+						<form name="form2" ng-submit="form2.$valid && addFile(fileName, filePath)" novalidate>
+							<input class="form-control" type="text" name="fileName" ng-model="fileName" placeholder="File Name" required/>
+							<span>{{fileNameErrorMsg}}</span>
+							<input class="form-control" type="text" name="filePath" ng-model="filePath"  value='root/' required />
+							<span>{{filePathErrorMsg}}</span>
+							<button type="submit" class="btn btn-default" ng-disabled="form2.$invalid">Create</button>
+							<strong><u><p>File Name must end with .php, .js, .css or .html</p></u></strong>
+					</div>					
+				</ul>				
+		</section>
+
+		<!-- File Manager GUI -->
+		<nav>
+			<i class="fa fa-folder"></i> root
+			<!-- first prints out folders then files (name is folderName)-->
+			<li ng-repeat="data in tree.root | orderBy:'name'" ng-include="'tree-items.html'"></li>
+			{{tree.root}}
+		</nav>
+	
+	</div>
+
+	<script type="text/javascript" 
+		src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js">
+	</script>
+	</script>
+	<script type="text/javascript" src="js/app.js"></script>
+	
+</body>
+</html>

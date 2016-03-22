@@ -1,0 +1,17 @@
+<!-- depenging if it is a folder or a file, row displays different icons with different attributes -->
+<div id='row'>
+	<i class='fa fa-folder' ng-show="data.name"><span> {{data.name}}</span></i>
+	<i class='fa fa-file' ng-show="data.fileName"><span> {{data.fileName}}</span></i>
+    <i class='fa fa-trash' ng-click='delete($parent,data)' ng-show="data.name"></i>
+    <i class='fa fa-trash' ng-click='deleteFile($parent,data)' ng-show="data.fileName"></i>
+    <i class='fa fa-pencil-square' ng-show="data.name" ng-click='edit(data)' ></i>
+    <i class='fa fa-pencil-square' ng-show="data.fileName" ng-click='editFileName(data)'></i>
+</div>
+	
+	
+<ul>
+    <li ng-repeat="data in data.children | orderBy:'name'" ng-include="'tree-items.html'"></li>
+</ul>
+
+
+

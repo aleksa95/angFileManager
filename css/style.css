@@ -1,0 +1,95 @@
+body{
+	padding: 0;
+	margin: 0;
+}
+[ng\:cloak], [ng-cloak], .ng-cloak {
+    display: none;
+}
+header{
+	padding: 19px 0;
+	height: 80px;
+	background-color: #283739;
+	color:red;
+	min-width: 400px;
+}
+h1{
+	padding: 0;
+	margin: 0;
+	margin-left: 45px;
+	color:#fff;
+}
+section {
+	margin: 30px;
+	float: left;
+	padding: 25px;
+	margin-top: 10px;
+}
+nav{
+	margin-top: 10px;
+	padding: 30px;
+}
+ul {
+	list-style-type: none;
+}
+li{
+	font-size: 20px;
+	margin-left: -15px;
+	list-style-type: none;
+}
+#leftTab{
+	
+}
+span{
+	
+	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+input{
+	position: relative;
+	top: 10px;
+	margin-bottom: 10px;
+}
+nav{
+	font-size: 20px;
+	float: left;
+	width: 700px;
+}
+button{
+	float: left;
+	width: 180px;
+	margin-top: 10px;
+}
+.container-fluid{
+	padding: 0;
+}
+.fa-trash {
+	padding-top:5px;
+	cursor: pointer;
+	float: right;
+	margin-left: 10px;
+}
+.fa-pencil-square {
+	padding-top:5px;
+	cursor: pointer;
+	float: right;
+}
+
+#forms {
+	width: 400px;
+}
+#forms p {
+	padding-top: 18px;
+	margin-left: 15px;
+	clear: left;
+}
+#row{
+	margin-left: 20px;
+	padding: 0px 10px;
+	margin-top:10px;
+}
+#row:hover{
+	border-radius: 4px;
+	background-color:#eee;
+}
+input{
+	clear: left;
+}
