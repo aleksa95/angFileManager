@@ -1,5 +1,6 @@
 {	
     "root" : [
-    {"name":"muzika", "path":"root/", "children":[{"fileName":"rock.js", "path":"root/muzika"}]}
+    {"name":"muzika", "parent":"root", "path":"root/", "children":[{"fileName":"rock.js","parent":"muzika",  "path":"root/muzika"}]},
+    {"name":"filmovi","parent":"root",  "path":"root/", "children":[{"fileName":"reverant.php","parent":"filmovi",  "path":"root/filmovi"}]}
     ]
 }
