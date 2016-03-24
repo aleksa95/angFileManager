@@ -81,6 +81,12 @@ button{
 	margin-left: 10px;
 	clear: left;
 }
+#forms button {
+	clear: left;
+}
+#forms span {
+	float: left;
+}
 #row{
 	cursor: pointer;
 	margin-left: 20px;

@@ -16,24 +16,43 @@ angular.module('app.controllders.dataController',[]).controller("DataController"
 
 		/*ADD FOLDER*/
 		$scope.addFolder = function (folderName, folderPath) {
-
-			// converts path into object dot notation
-			var path = folderPath.split("/").join('.').slice(0,(folderPath.lastIndexOf('.')));
-			var pathItems = folderPath.split('/');
-			var rootLentgth = $scope.tree.root.length;
-			var fullStop = folderName.charAt(0);
-			var newFolder = {
-				"name" : folderName,
-				"parent" : parent,
-				"path" : folderPath,
-				"children" : []				
-			}
-			var object = $scope.tree.root;
-			var isThereFolder;
+			var pathFolders = folderPath.split('/'),
+			    fullStop = folderName.charAt(0),
+			    object = $scope.tree.root,
+				isThereFolder,
+				depth,
+				newFolder = {
+					"name" : folderName,
+					"parent" : parent,
+					"path" : folderPath,
+					"depth": depth,
+					"children" : []			
+				};
 
 
+
+			// goes through tree and checks if the folder we are trying to reach exists
+			function searhForFolder(obj, pathFolder, depth) {
+				for (item in obj) {						
+					if (pathFolder === obj[item].name && obj[item].depth == pathFolders.length) {		
+							console.log("the folder "+ obj[item].name + " was found in " + obj[item].parent + " and the depth is " + obj[item].depth);
+							result.push(true);
+					} else {
+						searhForFolder(obj[item].children, pathFolder, depth);
+					}
+				}
+			}			
 			
-			
+
+			// clears form
+			function clearForm() {
+					$("input[name = 'folderName']").css('border-color', '#eee');
+					$("input[name = 'folderPath']").css('border-color', '#eee');
+					$scope.folderPathErrorMsg = '';
+					$scope.folderNameErrorMsg = '';
+					$scope.folderName = null;				
+			}	
+
 
 			/*CUSTOM FORM VALIDATION*/
 			// alert if folder name starts with a fullstop	
@@ -49,83 +68,86 @@ angular.module('app.controllders.dataController',[]).controller("DataController"
 			// when Folder Path is defalut generates folder in root						
 			} else if (folderPath === 'root/') {
 				newFolder.path = folderPath;
-				newFolder.parent = "root";					
+				newFolder.parent = "root";
+				newFolder.depth = 1;					
 				$scope.tree.root.push(newFolder);
 				clearForm();
 
-			// deletes the last forward slash from pathItems array
+			// deletes the last forward slash from pathFolders array
 			// makes the last folder of folderPath the parrent							
-			} else if (pathItems[pathItems.length - 1] === '') {				
- 				pathItems.pop();
-				newFolder.parent = pathItems[pathItems.length-1];
-				var parent = newFolder.parent;				
-				console.log('parent : ' + parent);
+			} else if (pathFolders[pathFolders.length - 1] === '') {				
+ 				pathFolders.pop();
+ 				pathFolders.shift(); 
+ 				newFolder.depth = pathFolders.length;
+				newFolder.parent = pathFolders[pathFolders.length-1];			
+				var result = [];
+								
+				// checks if Folder Path input is true
+				for(var i = 0; i< pathFolders.length; i++){
+					searhForFolder(object, pathFolders[i], pathFolders[pathFolders.length-2]);
+				}
 
-				// RECURSIVE FUNCTION THAT CHECKS WETHER THE LAST FOLDER 
-				// IN FODLER PATH EXISTS (true or false)
-				traverse(object, parent)
-				// isThereFolder = recursive function result
-				
-
-
-				// error if there is no folder to put the new folder in
-				if (isThereFolder === false) {				
+				// error if Folder Path input is false
+				if (result[0] !== true) {				
 					$("input[name = 'folderPath']").css('border-color', 'red');
-					$scope.folderPathErrorMsg = 'Parent folder does not exist';
+					$scope.folderPathErrorMsg = 'Folder path is incorrect';
 
 				// pushes new folder to folder specified in root Folder	
-				} else  {
+				} else {
 
 					//FUNCTION THAT PUSHES THE NEW FOLDER INTO EXISTING FOLDER -UNKNOWN
-
+					console.log("PUSH FOLDER");
 					clearForm();			
-				}
-			
-			}
-				// goes through tree and checks if the folder we are trying to reach exists
-				// NOT WORKING
-				// can not get function to return a value
-				function traverse(jsonObj, parent) {
-				    if( typeof jsonObj == "object" ) {
-				        $.each(jsonObj, function(key,value) {
-				            console.log(key + " : "+value);
-				            if(key === 'name' && value === parent) {
-				            	console.log("exist");
-				            	
-				            } else if(key === 'name' && value !== parent) {
-				            	console.log("a");
-				            }
-				            traverse(value, parent);
-				        });
-				    }
-				}	
-					
-
-			// clears form
-			function clearForm() {
-					$("input[name = 'folderName']").css('border-color', '#eee');
-					$("input[name = 'folderPath']").css('border-color', '#eee');
-					$scope.folderPathErrorMsg = '';
-					$scope.folderNameErrorMsg = '';
-					$scope.folderName = null;				
-			}		
+				}			
+			}				
 		}
 		/*ADD FOLDER END*/
 
 
 		/*ADD FILE*/
 		$scope.addFile = function(fileName, filePath) {
-			// converts path into object dot notation
-			var path = filePath.split("/").join('.').slice(0,(filePath.lastIndexOf('.')));
-			var newFile = {
-				'fileName' : fileName,
-				'path' : 'root/' + filePath,						
-			};
-			
-			var extension = ['php','js','css','html'];
-			var fileNameExtension = fileName.substr(fileName.lastIndexOf('.') + 1);
-			var fullStop = fileName.charAt(0);
-			var correctExtension;
+			var pathFolders = filePath.split('/'),
+			    fullStop = fileName.charAt(0),
+			    object = $scope.tree.root,
+				isThereFolder,
+				depth,
+				correctExtension,
+				filePath,
+				newFile = {
+					'fileName' : fileName,
+					'parent' : parent,
+					'path' : filePath,
+					'depth'	: depth,
+					'path' : filePath					
+				},
+				extension = ['php','js','css','html'],
+				fileNameExtension = fileName.substr(fileName.lastIndexOf('.') + 1);
+
+			// goes through tree and checks if the folder we are trying to reach exists
+			function searhForFolder(obj, pathFolder, depth) {
+				for (item in obj) {						
+					if (pathFolder === obj[item].name && obj[item].depth == pathFolders.length) {		
+							console.log("the folder "+ obj[item].name + " was found in " + obj[item].parent + " and the depth is " + obj[item].depth);
+							result.push(true);
+					} else {
+						searhForFolder(obj[item].children, pathFolder, depth);
+					}
+				}
+			}	
+
+			function clearForm() {
+				$("input[name = 'fileName']").css('border-color', '#ccc');
+				$("input[name = 'filePath']").css('border-color', '#ccc');
+				$scope.fileNameErrorMsg = "";
+				$scope.filePathErrorMsg = "";
+				$scope.fileName = null;				
+			}
+
+			// sorts files in the folder where the file is made
+			function sort() {
+				
+			}
+
 
 			// goes through correct extension and returns 
    			// true if the inputed extension is correct	
@@ -135,42 +157,64 @@ angular.module('app.controllders.dataController',[]).controller("DataController"
 				} 
 			}
 
-			/*custom validation*/
+
+			/*CUSTOM FORM VALIDATION*/
 			// alert if file name starts with a fullstop	
 			if (fullStop === '.') {
 				$scope.fileNameErrorMsg = "File name can not start with a fullstop";
 				$("input[name = 'fileName']").css('border-color', 'red');
+
 			// alert if extension is not supported	
 			} else if (correctExtension !== true) {
 				$scope.fileNameErrorMsg = "File extension is not supported";
 				$("input[name = 'fileName']").css('border-color', 'red');
+
 			// alert if file path does not end with a forward slash						
 			} else if ((filePath.substring(filePath.length-1)) !== '/') {
 				$("input[name = 'filePath']").css('border-color', 'red');
 				$scope.filePathErrorMsg = 'File path must end with a forward slash';
+
 			//alert if parent folder does not exist		
-			} else if ($scope.tree[path] === undefined) {
-				$("input[name = 'filePath']").css('border-color', 'red');
-				$scope.filePathErrorMsg = 'Parent folder does not exist';
-			} else {
-				// adds new file
+			} else if (filePath === 'root/') {
+				newFile.path = filePath;
+				newFile.parent = "root";
+				newFile.depth = 1;					
 				$scope.tree.root.push(newFile);
+				clearForm();
 
-				/////*DO OVDE DOSAO*//////
-
-				// sorts the files alphabetically
+				// sorts files in root
 				$scope.tree.root.sort(function(a, b){
     				if(a.fileName < b.fileName) return -1;
     				if(a.fileName > b.fileName) return 1;
     				return 0;
 			 	});
 
-			 	// form reset
-				$("input[name = 'fileName']").css('border-color', '#ccc');
-				$("input[name = 'filePath']").css('border-color', '#ccc');
-				$scope.fileNameErrorMsg = "";
-				$scope.filePathErrorMsg = "";
-				$scope.fileName = null;
+			// deletes the last forward slash from pathFolders array
+			// makes the last folder of folderPath the parrent					 					
+			} else if (pathFolders[pathFolders.length - 1] === '') {
+ 				pathFolders.pop();
+ 				pathFolders.shift(); 
+ 				newFile.depth = pathFolders.length;
+				newFile.parent = pathFolders[pathFolders.length-1];			
+				var result = [];
+								
+				// checks if File Path input is true
+				for(var i = 0; i< pathFolders.length; i++){
+					searhForFolder(object, pathFolders[i], pathFolders[pathFolders.length-2]);
+				}
+
+				// error if Folder Path input is false
+				if (result[0] !== true) {				
+					$("input[name = 'folderPath']").css('border-color', 'red');
+					$scope.filePathErrorMsg = 'Folder path is incorrect';
+
+				// pushes new folder to folder specified in root Folder	
+				} else {
+					//FUNCTION THAT PUSHES THE NEW File INTO EXISTING FOLDER -UNKNOWN
+					console.log("PUSH File");
+					clearForm();				
+				}				
+
 			}
 
 		}
@@ -179,16 +223,21 @@ angular.module('app.controllders.dataController',[]).controller("DataController"
 		/*DELETE FOLDERS*/
 		$scope.delete = function(parent,data) {
 			delete data.name;
-			delete data.children;
-			delete data.folderPath;
+			delete data.parent;		
+			delete data.path;
+			delete data.depth;			
 			delete parent.data.children;
+			delete parent.data;
     	};
+
 
     	/*DELETE FILES*/
     	$scope.deleteFile = function(parent,data) {
 			delete data.fileName;
 			delete data.filePath;
 			delete parent.data;
+			delete data.path;
+			delete data.depth;
     	};
 
 
