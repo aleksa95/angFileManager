@@ -5,22 +5,9 @@ body{
 [ng\:cloak], [ng-cloak], .ng-cloak {
     display: none;
 }
-header{
-	padding: 19px 0;
-	height: 80px;
-	background-color: #283739;
-	color:red;
-	min-width: 400px;
-}
-h1{
-	padding: 0;
-	margin: 0;
-	margin-left: 45px;
-	color:#fff;
-}
+
 section {
 	margin: 30px;
-	float: left;
 	padding: 25px;
 	margin-top: 10px;
 }
@@ -49,9 +36,10 @@ input{
 	margin-bottom: 10px;
 }
 nav{
+
 	font-size: 20px;
-	float: left;
 	width: 700px;
+	margin: 0 auto;
 }
 button{
 	float: left;
@@ -66,15 +54,18 @@ button{
 	cursor: pointer;
 	float: right;
 	margin-left: 10px;
+	color: #D9534F;
 }
 .fa-pencil-square {
 	padding-top:5px;
 	cursor: pointer;
 	float: right;
+	color: #F0AD4E;
 }
 
 #forms {
 	width: 410px;
+	margin: 0 auto;
 }
 #forms p {
 	padding-top: 18px;
@@ -97,7 +88,12 @@ button{
 	border-radius: 4px;
 	background-color:#eee;
 }
-
 input{
 	clear: left;
+}
+.jumbotron {
+	margin: 30px auto;
+	width: 95%;
+	text-align: center;
+
 }

@@ -5,5 +5,4 @@
 			<i class="fa fa-folder"></i> root
 			<!-- first prints out folders then files (name is folderName)-->
 			<li ng-repeat="data in tree.root | orderBy:'name'" ng-include="'js/templates/tree-items.html'"></li>
-			{{tree.root}}
 		</nav>

@@ -43,6 +43,16 @@ angular.module('app.controllders.dataController',[]).controller("DataController"
 				}
 			}			
 			
+			// adds new folder to path
+			function pushFolder(obj, pathFolder) {
+				for (item in obj) {					
+					if (pathFolder === obj[item].name && obj[item].depth == pathFolders.length) {		
+						obj[item].children.push(newFolder);
+					} else {
+						pushFolder(obj[item].children, pathFolder);
+					}
+				}				
+			}
 
 			// clears form
 			function clearForm() {
@@ -78,13 +88,13 @@ angular.module('app.controllders.dataController',[]).controller("DataController"
 			} else if (pathFolders[pathFolders.length - 1] === '') {				
  				pathFolders.pop();
  				pathFolders.shift(); 
- 				newFolder.depth = pathFolders.length;
+ 				newFolder.depth = pathFolders.length+1;
 				newFolder.parent = pathFolders[pathFolders.length-1];			
 				var result = [];
 								
 				// checks if Folder Path input is true
 				for(var i = 0; i< pathFolders.length; i++){
-					searhForFolder(object, pathFolders[i], pathFolders[pathFolders.length-2]);
+					searhForFolder(object, pathFolders[i]);
 				}
 
 				// error if Folder Path input is false
@@ -95,11 +105,13 @@ angular.module('app.controllders.dataController',[]).controller("DataController"
 				// pushes new folder to folder specified in root Folder	
 				} else {
 
-					//FUNCTION THAT PUSHES THE NEW FOLDER INTO EXISTING FOLDER -UNKNOWN
-					console.log("PUSH FOLDER");
+					// adds folder to path
+					for(var i = 0; i < pathFolders.length; i++){
+						pushFolder(object, pathFolders[i]);
+					}
 					clearForm();			
 				}			
-			}				
+			} 				
 		}
 		/*ADD FOLDER END*/
 
@@ -135,17 +147,28 @@ angular.module('app.controllders.dataController',[]).controller("DataController"
 				}
 			}	
 
+			// pushes file to path
+			function pushFile(obj, pathFolder) {
+				for (item in obj) {					
+					if (pathFolder === obj[item].name && obj[item].depth == pathFolders.length) {		
+						obj[item].children.push(newFile);
+						obj[item].children.sort(function(a, b){
+    						if(a.fileName < b.fileName) return -1;
+    						if(a.fileName > b.fileName) return 1;
+    						return 0;
+			 			});
+					} else {
+						pushFile(obj[item].children, pathFolder);
+					}
+				}				
+			}
+
 			function clearForm() {
 				$("input[name = 'fileName']").css('border-color', '#ccc');
 				$("input[name = 'filePath']").css('border-color', '#ccc');
 				$scope.fileNameErrorMsg = "";
 				$scope.filePathErrorMsg = "";
 				$scope.fileName = null;				
-			}
-
-			// sorts files in the folder where the file is made
-			function sort() {
-				
 			}
 
 
@@ -205,14 +228,16 @@ angular.module('app.controllders.dataController',[]).controller("DataController"
 
 				// error if Folder Path input is false
 				if (result[0] !== true) {				
-					$("input[name = 'folderPath']").css('border-color', 'red');
+					$("input[name = 'filePath']").css('border-color', 'red');
 					$scope.filePathErrorMsg = 'Folder path is incorrect';
-
-				// pushes new folder to folder specified in root Folder	
+					
 				} else {
-					//FUNCTION THAT PUSHES THE NEW File INTO EXISTING FOLDER -UNKNOWN
-					console.log("PUSH File");
-					clearForm();				
+
+					// adds new file to path
+					for(var i = 0; i < pathFolders.length; i++){
+						pushFile(object, pathFolders[i]);
+					}
+					clearForm();			
 				}				
 
 			}
