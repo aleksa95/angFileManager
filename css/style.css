@@ -5,7 +5,6 @@ body{
 [ng\:cloak], [ng-cloak], .ng-cloak {
     display: none;
 }
-
 section {
 	margin: 30px;
 	padding: 25px;
@@ -23,11 +22,7 @@ li{
 	margin-left: -15px;
 	list-style-type: none;
 }
-#leftTab{
-	  margin-left: 20px;
-}
 span{
-	
 	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
 }
 input{
@@ -38,13 +33,16 @@ input{
 nav{
 
 	font-size: 20px;
-	width: 700px;
-	margin: 0 auto;
+	width: 600px;
+	margin-left:50px;
 }
 button{
 	float: left;
 	width: 180px;
 	margin-top: 10px;
+}
+#leftTab{
+	  margin-left: 20px;
 }
 .container-fluid{
 	padding: 0;
@@ -62,10 +60,10 @@ button{
 	float: right;
 	color: #F0AD4E;
 }
-
 #forms {
 	width: 410px;
-	margin: 0 auto;
+	float: right;
+	margin-right: 50px;
 }
 #forms p {
 	padding-top: 18px;
@@ -88,12 +86,10 @@ button{
 	border-radius: 4px;
 	background-color:#eee;
 }
-input{
-	clear: left;
-}
 .jumbotron {
 	margin: 30px auto;
 	width: 95%;
 	text-align: center;
-
+	padding-top:30px;
+	padding-bottom: 30px;
 }
